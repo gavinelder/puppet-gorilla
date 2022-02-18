@@ -1,0 +1,15 @@
+---
+# Versions can be found at https://github.com/1dustindavis/gorilla/releases v1.10.0 exists but it's an RC
+gorilla::version: 'v1.8.0'
+# Default binary name.
+gorilla::filename: 'gorrila.exe'
+# Default download name.
+gorilla::download: "https://github.com/1dustindavis/gorilla/releases/download/${gorilla::version}/${gorilla::filename"
+gorilla::app_data_path: '%ProgramData%/gorilla/'
+gorilla::tls_auth: false
+gorilla::tls_client_cert: ''
+gorilla::tls_client_key: ''
+gorilla::tls_server_cert: ''
+gorilla::auth_user: ''
+gorilla::auth_pass: ''
+gorilla::server: ''
