@@ -37,7 +37,7 @@ $config_hash ={
     }
     file { "${install_dir}/config.yaml":
       ensure  => file,
-      content => epp('gorilla_config.epp',$config_hash)
+      content => epp('gorilla/gorilla_config.epp',$config_hash)
     }->win_scheduled_task::manage { 'gorilla':
       ensure      => present,
       file_source => 'puppet:///modules/gorilla/gorilla.xml',
