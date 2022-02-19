@@ -1,7 +1,6 @@
 class gorilla::install {
-
-# $server = $gorilla::server
-
+  $server = $gorilla::server
+  $manifest = $gorilla::manifest
 # $key    = $gorilla::key
 
 
@@ -17,9 +16,13 @@ $source = $gorilla::source
 if 'puppet:///modules/' in source {
     $package_source = "${source}/sal_scripts-${macos_version}.pkg"
 } else {
-
+  $package_source = "${source}/sal_scripts-${macos_version}.pkg"
 }
 
+$config_hash ={
+  'url' => $server,
+  'manifest' => $manifest,
+}
 
   # Only Support Windows 10
   if versioncmp($facts['os']['release']['full'], '10') >= 0 {
@@ -34,7 +37,7 @@ if 'puppet:///modules/' in source {
     }
     file { "${install_dir}/config.yaml":
       ensure  => file,
-      content => 'foo'
+      content => epp('gorilla_config.epp',$config_hash)
     }->win_scheduled_task::manage { 'gorilla':
       ensure      => present,
       file_source => 'puppet:///modules/gorilla/gorilla.xml',
