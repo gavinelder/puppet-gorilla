@@ -1,7 +1,13 @@
 <%- | $url,
       $manifest,
+      $catalog,
+      $app_data_path
 | -%>
 # This file is managed by Puppet. Please do not make manual changes.
 ---
-:url: <%= $url %>
-:manifest:   <%= $manifest %>
+url: $url
+manifest: $manifest
+catalog: $catalog
+app_data_path: $catalog
+# auth_user: johnny
+# auth_pass: pizza

@@ -1,5 +1,5 @@
 class gorilla::install {
-  $server = $gorilla::server
+  $url = $gorilla::server
   $manifest = $gorilla::manifest
 # $key    = $gorilla::key
 
@@ -11,6 +11,7 @@ class gorilla::install {
 # # TODO an Actual Config File.
 
 # Configure install source.
+$install_dir = 'C:/ProgramData/Gorilla'
 
 $source = $gorilla::source
 if 'puppet:///modules/' in source {
@@ -19,15 +20,16 @@ if 'puppet:///modules/' in source {
   $package_source = "${source}/sal_scripts-${macos_version}.pkg"
 }
 
-$config_hash ={
-  'url' => $server,
+$gorrilla_config_hash ={
+  'url' => $url,
   'manifest' => $manifest,
+  'app_data_path' => $install_dir,
+  'catalog' => 'foo'
 }
 
   # Only Support Windows 10
   if versioncmp($facts['os']['release']['full'], '10') >= 0 {
     # Should Ensure Permissions on this are secure
-    $install_dir = 'C:/ProgramData/Gorilla'
     file { $install_dir:
       ensure => 'directory',
     }
@@ -37,7 +39,7 @@ $config_hash ={
     }
     file { "${install_dir}/config.yaml":
       ensure  => file,
-      content => epp('gorilla/gorilla_config.epp',$config_hash)
+      content => epp('gorilla/gorilla_config.epp',$gorrilla_config_hash)
     }->win_scheduled_task::manage { 'gorilla':
       ensure      => present,
       file_source => 'puppet:///modules/gorilla/gorilla.xml',
