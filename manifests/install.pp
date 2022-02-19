@@ -1,19 +1,30 @@
 class gorilla::install {
+
 # $server = $gorilla::server
 
 # $key    = $gorilla::key
 
-# $source = $gorilla::source
 
 # $version  = $gorilla::version
 
 # $install_dir = $gorilla::install_dir
 
 # # TODO an Actual Config File.
+
+# Configure install source.
+
+$source = $gorilla::source
+if 'puppet:///modules/' in source {
+    $package_source = "${source}/sal_scripts-${macos_version}.pkg"
+} else {
+
+}
+
+
   # Only Support Windows 10
   if versioncmp($facts['os']['release']['full'], '10') >= 0 {
     # Should Ensure Permissions on this are secure
-    $install_dir = 'C:/ProgramData/gorilla'
+    $install_dir = 'C:/ProgramData/Gorilla'
     file { $install_dir:
       ensure => 'directory',
     }
